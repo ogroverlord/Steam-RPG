@@ -1,93 +1,61 @@
 using System;
 using UnityEngine;
 using UnityStandardAssets.Characters.ThirdPerson;
+using UnityEngine.AI;
 
 
-[RequireComponent(typeof(ThirdPersonCharacter), typeof(CameraRaycaster))]
+[RequireComponent(typeof(ThirdPersonCharacter))]
+[RequireComponent(typeof(AICharacterControl))]
+[RequireComponent(typeof(NavMeshAgent))]
 public class PlayerMovement : MonoBehaviour
 {
     private bool isInDirectMode = false;
 
-    ThirdPersonCharacter thirdPersonCharacter;   // A reference to the ThirdPersonCharacter on the object
-    CameraRaycaster cameraRaycaster;
-    Vector3 currentDestination, clickPoint;
+    //solve const and serialize fields
+    [SerializeField] const int walkableLayerNumber = 8;
+    [SerializeField] const int enemyLayerNumber = 9;
 
-    [SerializeField] float walkMoveStopRadius = 0.2f;
-    [SerializeField] float atackMoveStopRadius = 5f;
-    [SerializeField] float atackRadius = 1.5f;
-    
+    ThirdPersonCharacter thirdPersonCharacter = null;   // A reference to the ThirdPersonCharacter on the object
+    CameraRaycaster cameraRaycaster = null;
+    Vector3 currentDestination, clickPoint;
+    AICharacterControl aiCharacterControl = null;
+    GameObject walkTarget = null; 
+
 
 
     private void Start()
     {
+        aiCharacterControl = GetComponent<AICharacterControl>();
         cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
         thirdPersonCharacter = GetComponent<ThirdPersonCharacter>();
         currentDestination = transform.position;
+        walkTarget = new GameObject("walkTarget"); 
+        cameraRaycaster.notifyMouseClickObservers += ProcessMouseCLick;
     }
-    //TO DO corect WASD so it cannot affect movment 
 
-    // Fixed update is called in sync with physics
-    private void FixedUpdate()
+    private void ProcessMouseCLick(RaycastHit raycastHit, int layerHit)
     {
-        if (Input.GetKeyDown(KeyCode.K))  //allow player to change mapping, general menus
+        switch (layerHit)
         {
-            isInDirectMode = !isInDirectMode;  // togle mode 
 
-            currentDestination = transform.position;
-            if (isInDirectMode) print("Direct Mode ON!");
-            else print("Direct Mode OFF!");
-        }
-
-        if (isInDirectMode)
-        {
-            ProcesDirectMovment();
-        }
-        else
-        {
-            ProcesMouseMovment();
-        }
-    }
-
-    private void ProcesMouseMovment()
-    {
-        if (Input.GetMouseButton(0))
-        {
-            clickPoint = cameraRaycaster.layerHit.point;
-
-            switch (cameraRaycaster.currentLayerHit)
-            {
-                case Layer.Walkable:
-                    currentDestination = ShortDestination(clickPoint, walkMoveStopRadius);
-                    break;
-
-                case Layer.Enemy:
-                    currentDestination = ShortDestination(clickPoint, atackMoveStopRadius);
-
-                    break;
-
-                default:
-                    print("Uknown layer!");
-                    return;
-            }
-        }
-        WalkToDestion();
-
-    }
-
-    private void WalkToDestion()
-    {
-        Vector3 playerToClickPoint = currentDestination - gameObject.transform.position;
-
-        if (playerToClickPoint.magnitude >= 0)
-        {
-            thirdPersonCharacter.Move(playerToClickPoint, false, false);
-        }
-        else
-        {
-            thirdPersonCharacter.Move(Vector3.zero, false, false);
+            case enemyLayerNumber:
+                //navigate to enemy
+                GameObject enemy = raycastHit.collider.gameObject;
+                aiCharacterControl.SetTarget(enemy.transform);
+                break;
+            case walkableLayerNumber:
+                walkTarget.transform.position = raycastHit.point;
+                aiCharacterControl.SetTarget(walkTarget.transform);
+                //walk to part of terrain 
+                break;
+            
+            default:
+                Debug.LogError("Do not know how to handel this case!"); 
+                break;
         }
     }
 
+    //make it get called again 
     private void ProcesDirectMovment()
     {
         float horitzontal = Input.GetAxis("Horizontal");
@@ -111,16 +79,15 @@ public class PlayerMovement : MonoBehaviour
     void OnDrawGizmos()
     {
         //movment gizmos
-        Gizmos.color = Color.black;
-        Gizmos.DrawLine(transform.position, currentDestination);
-        Gizmos.DrawSphere(currentDestination, 0.1f);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(clickPoint, 0.2f);
+        //Gizmos.color = Color.black;
+        //Gizmos.DrawLine(transform.position, currentDestination);
+        //Gizmos.DrawSphere(currentDestination, 0.1f);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawSphere(clickPoint, 0.2f);
 
         //atack spheara
-        Gizmos.color = new Color(0f, 0f, 255f, 0.5f);
-        Gizmos.DrawWireSphere(transform.position, atackMoveStopRadius);
+        //Gizmos.color = new Color(0f, 0f, 255f, 0.5f);
+        //Gizmos.DrawWireSphere(transform.position, atackMoveStopRadius);
 
         //meele attack radius 
         //Gizmos.color = new Color(0f, 100f, 250f, 0.5f);
