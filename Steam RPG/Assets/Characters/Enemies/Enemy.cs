@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] GameObject projectileSocket;
     [SerializeField] Vector3 aimOffset = new Vector3(0,1.5f,0);
 
+
     private float currentHealtPoints = 100f;
     AICharacterControl aiCharacterControl = null;
     Player player = null;
@@ -56,13 +57,15 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
+    // TODO sperate firing logic 
     private void SpawnProjectile()
     {  
         Projectile newProjectile = Instantiate(projetileToUse, projectileSocket.transform.position, Quaternion.identity);
-        newProjectile.GetComponent<Projectile>().SetDamage(damagePerShot);
-        float projectilSpeed = newProjectile.GetComponent<Projectile>().projectileSpeed;
+        newProjectile.SetDamage(damagePerShot);
+        newProjectile.SetShooter(this.gameObject);
+        float projectilSpeed = newProjectile.projectileSpeed;
+ 
         Vector3 unitVectorToPlayer = Vector3.Normalize(player.transform.position + aimOffset - projectileSocket.transform.position);
-
         newProjectile.GetComponent<Rigidbody>().velocity = unitVectorToPlayer * projectilSpeed;
     }
 
