@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 20806051947828226}
   - component: {fileID: 124870941168790962}
   - component: {fileID: 81120407253560156}
-  - component: {fileID: 114985972586913474}
   - component: {fileID: 114619043793592574}
   m_Layer: 0
   m_Name: Main Camera
@@ -83,7 +82,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.14509805, g: 0.25882354, b: 0.4392157, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -129,7 +128,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   layerPriorities: 090000000a00000008000000
-  stringToPrint: new string
+  walkCursor: {fileID: 2800000, guid: 93bf090ad9a48df4281ba1af308a4e50, type: 3}
+  attackCursor: {fileID: 2800000, guid: a264bbdc69dc4294a8c74e1a3bfa2700, type: 3}
+  cursorHotspot: {x: 0, y: 0}
 --- !u!114 &114796375560662294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -141,21 +142,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dde61589f78fa2448fa9fd9126ad488, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114985972586913474
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1230457058972766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7546907bfce967c45a6501747ab4c158, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkCursor: {fileID: 2800000, guid: 93bf090ad9a48df4281ba1af308a4e50, type: 3}
-  attackCursor: {fileID: 2800000, guid: a264bbdc69dc4294a8c74e1a3bfa2700, type: 3}
-  unknownCursor: {fileID: 2800000, guid: c548a762ff130c84892947c6c2ffb906, type: 3}
-  curosHotspot: {x: 0, y: 0}
 --- !u!124 &124870941168790962
 Behaviour:
   m_ObjectHideFlags: 1

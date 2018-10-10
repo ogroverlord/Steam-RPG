@@ -13,17 +13,11 @@ namespace RPG.Characters
     {
         private bool isInDirectMode = false;
 
-        //solve const and serialize fields
-        [SerializeField] const int walkableLayerNumber = 8;
-        [SerializeField] const int enemyLayerNumber = 9;
-
         ThirdPersonCharacter thirdPersonCharacter = null;   // A reference to the ThirdPersonCharacter on the object
         CameraRaycaster cameraRaycaster = null;
         Vector3 clickPoint;
         AICharacterControl aiCharacterControl = null;
         GameObject walkTarget = null;
-
-
 
         private void Start()
         {
@@ -31,28 +25,25 @@ namespace RPG.Characters
             cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
             thirdPersonCharacter = GetComponent<ThirdPersonCharacter>();
             walkTarget = new GameObject("walkTarget");
-            cameraRaycaster.notifyMouseClickObservers += ProcessMouseCLick;
+
+            cameraRaycaster.onMouseOverWalkable += ProcessWalkToMove;
+            cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
         }
 
-        private void ProcessMouseCLick(RaycastHit raycastHit, int layerHit)
+        void OnMouseOverEnemy(Enemy enemy)
         {
-            switch (layerHit)
+            if (Input.GetMouseButtonDown(1) || Input.GetMouseButton(0))
             {
+                aiCharacterControl.SetTarget(enemy.transform);
+            }
+        }
 
-                case enemyLayerNumber:
-                    //navigate to enemy
-                    GameObject enemy = raycastHit.collider.gameObject;
-                    aiCharacterControl.SetTarget(enemy.transform);
-                    break;
-                case walkableLayerNumber:
-                    walkTarget.transform.position = raycastHit.point;
-                    aiCharacterControl.SetTarget(walkTarget.transform);
-                    //walk to part of terrain 
-                    break;
-
-                default:
-                    Debug.LogError("Do not know how to handel this case!");
-                    break;
+        private void ProcessWalkToMove(Vector3 destination)
+        {
+            if (Input.GetMouseButton(0))
+            {
+                walkTarget.transform.position = destination;
+                aiCharacterControl.SetTarget(walkTarget.transform);
             }
         }
 
@@ -77,25 +68,9 @@ namespace RPG.Characters
             return destination - reductionVector;
         }
 
-        void OnDrawGizmos()
-        {
-            //movment gizmos
-            //Gizmos.color = Color.black;
-            //Gizmos.DrawLine(transform.position, currentDestination);
-            //Gizmos.DrawSphere(currentDestination, 0.1f);
-            //Gizmos.color = Color.red;
-            //Gizmos.DrawSphere(clickPoint, 0.2f);
 
-            //atack spheara
-            //Gizmos.color = new Color(0f, 0f, 255f, 0.5f);
-            //Gizmos.DrawWireSphere(transform.position, atackMoveStopRadius);
-
-            //meele attack radius 
-            //Gizmos.color = new Color(0f, 100f, 250f, 0.5f);
-            //Gizmos.DrawSphere(transform.position, atackRadius);
-
-        }
 
     }
+
 
 }

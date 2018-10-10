@@ -6,22 +6,20 @@ using UnityStandardAssets.Characters.ThirdPerson;
 using UnityEngine.Assertions;
 
 // TODO Consier re-wiering 
-using RPG.CameraUI; 
+using RPG.CameraUI;
 using RPG.Core;
-using RPG.Wepons; 
+using RPG.Wepons;
 
 namespace RPG.Characters
 {
     public class Player : MonoBehaviour, IDamageable
     {
-        [SerializeField] int enemyLayer = 9;
         [SerializeField] float maxHealthPoints = 100f;
         [SerializeField] AnimatorOverrideController animatorOverrideController = null;
         [SerializeField] Wepon weponInUse = null;
         [SerializeField] float damagePerHit = 10f;
 
-
-        Animator animator; 
+        Animator animator;
         float lastHitTime = 0f;
         GameObject currentTarget;
         CameraRaycaster cameraRaycaster;
@@ -75,36 +73,33 @@ namespace RPG.Characters
         private void RegisterForMouseClick()
         {
             cameraRaycaster = FindObjectOfType<CameraRaycaster>();
-            cameraRaycaster.notifyMouseClickObservers += OnMouseClicked;
+            cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
 
         }
 
-        private void OnMouseClicked(RaycastHit raycastHit, int layerHit)
+        private void OnMouseOverEnemy(Enemy enemy)
         {
-            if (layerHit == enemyLayer)
+            if (Input.GetMouseButton(0) && IsEnemyInRange(enemy))
             {
-                var enemy = raycastHit.collider.gameObject;
-                if (IsEnemyInRange(enemy))
+                AttackTarget(enemy);
+            }
+        }
+
+        private void AttackTarget(Enemy enemy)
+        {
+                if (Time.time - lastHitTime > weponInUse.GetMinTimeBetweenHits())
                 {
-                    AttackTarget(enemy); 
-                }  
-            }
+                    enemy.TakeDamage(damagePerHit);
+                    animator.SetTrigger("Attacking");
+                    lastHitTime = Time.time;
+                }
         }
 
-        private void AttackTarget(GameObject target)
-        {
-            if (Time.time - lastHitTime > weponInUse.GetMinTimeBetweenHits())
-            {
-                var enemyCompoent = target.GetComponent<Enemy>();
-                enemyCompoent.TakeDamage(damagePerHit);
-                animator.SetTrigger("Attacking"); 
-                lastHitTime = Time.time;
-            }
-        }
 
-        private bool IsEnemyInRange(GameObject target)
+
+        private bool IsEnemyInRange(Enemy enemy)
         {
-            float distanceToTarget = (target.transform.position - transform.position).magnitude;
+            float distanceToTarget = (enemy.transform.position - transform.position).magnitude;
             return distanceToTarget <= weponInUse.GetMaxAttackRange();
 
         }
