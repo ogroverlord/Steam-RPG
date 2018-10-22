@@ -715,7 +715,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   energyBar: {fileID: 0}
   maxEnergyPoints: 100
-  pointPerHit: 10
 --- !u!114 &114476567774347382
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -731,7 +730,9 @@ MonoBehaviour:
   animatorOverrideController: {fileID: 22100000, guid: c43e88e71c86c2c46a497910846931a8,
     type: 2}
   weponInUse: {fileID: 11400000, guid: 2affa4dae424ac44c8f819dc56802003, type: 2}
-  damagePerHit: 10
+  baseDamage: 10
+  abilities:
+  - {fileID: 11400000, guid: da83fcf668c733c4cbd68e90c6e4d02f, type: 2}
 --- !u!114 &114509748924131626
 MonoBehaviour:
   m_ObjectHideFlags: 1

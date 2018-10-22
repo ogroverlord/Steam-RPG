@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RPG.CameraUI;
+
 
 namespace RPG.Characters
 {
@@ -10,34 +10,38 @@ namespace RPG.Characters
     public class Energy : MonoBehaviour
     {
 
-        [SerializeField] RawImage energyBar;
+        [SerializeField] RawImage energyBar = null;
         [SerializeField] float maxEnergyPoints = 100f;
-        [SerializeField] float pointPerHit = 10f;
-
+        [SerializeField] float regenPointsPerSecond = 5f;
+   
         float currentEnergyPoints;
-        CameraRaycaster cameraRaycaster;
 
-        void Start()
+        private void Start()
         {
-            cameraRaycaster = GameObject.FindObjectOfType<CameraRaycaster>();
-            cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
             currentEnergyPoints = maxEnergyPoints;
         }
 
-
-        void OnMouseOverEnemy(Enemy enemy)
+        private void Update()
         {
-            if (Input.GetMouseButtonDown(1))
+            if(currentEnergyPoints < maxEnergyPoints)
             {
-                UpdateEnergyPoints();
+                AddEnergyPoints();
                 UpdateEnergyBar();
             }
         }
 
-        private void UpdateEnergyPoints()
+        public void ConsumeEnergy(float amount)
         {
-            float newEnergyPoints = currentEnergyPoints - pointPerHit;
-            currentEnergyPoints = Mathf.Clamp(newEnergyPoints, 0, maxEnergyPoints);
+            if (IsEnergyAvailable(amount))
+            {
+                float newEnergyPoints = currentEnergyPoints - amount;
+                currentEnergyPoints = Mathf.Clamp(newEnergyPoints, 0, maxEnergyPoints);
+            }
+            UpdateEnergyBar();
+        }
+        public bool IsEnergyAvailable(float amount)
+        {
+            return amount <= currentEnergyPoints;
         }
         private void UpdateEnergyBar()
         {
@@ -47,6 +51,12 @@ namespace RPG.Characters
         float EnergyAsPercent()
         {
             return currentEnergyPoints / maxEnergyPoints;
+        }
+
+        void AddEnergyPoints()
+        {
+            var pointsToAdd = regenPointsPerSecond * Time.deltaTime;
+            currentEnergyPoints = Mathf.Clamp(currentEnergyPoints + pointsToAdd, 0, maxEnergyPoints);
         }
 
     }

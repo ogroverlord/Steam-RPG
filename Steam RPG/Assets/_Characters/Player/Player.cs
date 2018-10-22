@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityStandardAssets.Characters.ThirdPerson;
+using RPG.Characters;
 using UnityEngine.Assertions;
 
 // TODO Consier re-wiering 
@@ -17,7 +17,12 @@ namespace RPG.Characters
         [SerializeField] float maxHealthPoints = 100f;
         [SerializeField] AnimatorOverrideController animatorOverrideController = null;
         [SerializeField] Wepon weponInUse = null;
-        [SerializeField] float damagePerHit = 10f;
+        [SerializeField] float baseDamage = 10f;
+
+        // temp serializer fileds 
+
+        [SerializeField] SpecialAbilty[] abilities;
+   
 
         Animator animator;
         float lastHitTime = 0f;
@@ -36,6 +41,8 @@ namespace RPG.Characters
             SetCurrentMaxHealth();
             PutWeponInHand();
             SetupRuntimeAnimator();
+            abilities[0].AttachComponentTo(gameObject);
+         
         }
 
         private void SetCurrentMaxHealth()
@@ -83,13 +90,30 @@ namespace RPG.Characters
             {
                 AttackTarget(enemy);
             }
+            else if (Input.GetMouseButtonDown(1))
+            {
+                UseSpecialAbilty(0,enemy);
+            }
+
+        }
+
+        private void UseSpecialAbilty(int abiltyIndex, Enemy enemy)
+        {
+            var energyCost = abilities[abiltyIndex].GetEnergyCost();
+            var energyComponent = gameObject.GetComponent<Energy>();
+            if (energyComponent.IsEnergyAvailable(energyCost))
+            {
+                energyComponent.ConsumeEnergy(energyCost);
+                var abilityParams = new AbiltyUseParams(enemy, baseDamage);
+                abilities[abiltyIndex].Use(abilityParams);
+            }
         }
 
         private void AttackTarget(Enemy enemy)
         {
                 if (Time.time - lastHitTime > weponInUse.GetMinTimeBetweenHits())
                 {
-                    enemy.TakeDamage(damagePerHit);
+                    enemy.TakeDamage(baseDamage);
                     animator.SetTrigger("Attacking");
                     lastHitTime = Time.time;
                 }
