@@ -14,7 +14,8 @@ namespace RPG.Characters
         [SerializeField] float chaseRadius = 8f;
 
         [SerializeField] float damagePerShot = 2f;
-        [SerializeField] float secondsBetweenShots = 5f;
+        [SerializeField] float firingPeriodInSeconds = 5f;
+        [SerializeField] float firingPeriodVariation = 0.1f;
         [SerializeField] float maxHealthPoints = 100f;
         [SerializeField] Projectile projetileToUse;
         [SerializeField] GameObject projectileSocket;
@@ -37,10 +38,17 @@ namespace RPG.Characters
         {
             float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
 
+            if(player.healthAsPercentage <= Mathf.Epsilon)
+            {
+                StopAllCoroutines();
+                Destroy(this); //Stop enemie behavior
+            }
+
             if (distanceToPlayer <= attackRadius && !isAttacking)
             {
                 isAttacking = true;
-                InvokeRepeating("SpawnProjectile", 0f, secondsBetweenShots); // Switch to corutine 
+                float randomisedDelat = UnityEngine.Random.Range(firingPeriodInSeconds - firingPeriodVariation, firingPeriodInSeconds + firingPeriodVariation);
+                InvokeRepeating("SpawnProjectile", 0f, randomisedDelat); // Switch to corutine 
             }
 
             if (distanceToPlayer > attackRadius)

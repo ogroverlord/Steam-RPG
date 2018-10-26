@@ -19,6 +19,8 @@ namespace RPG.CameraUI
 
         float maxRaycastDepth = 100f; // Hard coded value
 
+        Rect screenRectAtStartPlay = new Rect(0, 0, Screen.width, Screen.height);
+
         public delegate void OnMouseOverEnemy(Enemy enemy);
         public event OnMouseOverEnemy onMouseOverEnemy;
 
@@ -32,7 +34,7 @@ namespace RPG.CameraUI
             if (EventSystem.current.IsPointerOverGameObject())
             {
                 //UI Interaction
-         
+
             }
             else
             {
@@ -42,11 +44,15 @@ namespace RPG.CameraUI
 
         void PerformRaycast()
         {
-            // Raycast to max depth, every frame as things can move under mouse
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (screenRectAtStartPlay.Contains(Input.mousePosition))
+            {
+                // Raycast to max depth, every frame as things can move under mouse
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (RaycastForEnemy(ray)) { return; }
-            if (RaycastForWaklable(ray)) { return; }
+                if (RaycastForEnemy(ray)) { return; }
+                if (RaycastForWaklable(ray)) { return; }
+            }
+
         }
 
         private bool RaycastForWaklable(Ray ray)
