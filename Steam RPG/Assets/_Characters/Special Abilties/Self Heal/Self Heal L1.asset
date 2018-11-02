@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f71f4f9f1709db40893df8fe0391877, type: 3}
+  m_Name: Self Heal L1
+  m_EditorClassIdentifier: 
+  energyCost: 30
+  particalePrefab: {fileID: 1502242443561298, guid: 27886ee7577a01e4bb3d22669e7427aa,
+    type: 2}
+  abiltySound: {fileID: 8300000, guid: 73e90d86bd0e1ce48a06f231d13dc371, type: 3}
+  healAmount: 100

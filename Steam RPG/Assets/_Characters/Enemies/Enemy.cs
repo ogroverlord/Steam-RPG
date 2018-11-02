@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RPG.Core;
 using RPG.Wepons;
+using UnityEngine.Assertions;
 
 namespace RPG.Characters
 {
@@ -20,6 +21,7 @@ namespace RPG.Characters
         [SerializeField] Projectile projetileToUse;
         [SerializeField] GameObject projectileSocket;
         [SerializeField] Vector3 aimOffset = new Vector3(0, 1.5f, 0);
+  
 
 
         private float currentHealtPoints = 100f;
@@ -27,13 +29,13 @@ namespace RPG.Characters
         Player player = null;
         bool isAttacking = false;
 
+
         private void Start()
         {
             currentHealtPoints = maxHealthPoints;
             player = GameObject.FindObjectOfType<Player>();
             aiCharacterControl = GetComponent<AICharacterControl>();
         }
-
         private void Update()
         {
             float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
@@ -67,7 +69,6 @@ namespace RPG.Characters
                 aiCharacterControl.SetTarget(transform);
             }
         }
-
         // TODO sperate firing logic 
         private void SpawnProjectile()
         {
@@ -79,9 +80,7 @@ namespace RPG.Characters
             Vector3 unitVectorToPlayer = Vector3.Normalize(player.transform.position + aimOffset - projectileSocket.transform.position);
             newProjectile.GetComponent<Rigidbody>().velocity = unitVectorToPlayer * projectilSpeed;
         }
-
         public float healthAsPercentage { get { return currentHealtPoints / maxHealthPoints; } }
-
         private void OnDrawGizmos()
         {
 
@@ -94,7 +93,6 @@ namespace RPG.Characters
             Gizmos.DrawWireSphere(this.transform.position, chaseRadius);
 
         }
-
         public void TakeDamage(float damage)
         {
             currentHealtPoints = Mathf.Clamp(currentHealtPoints - damage, 0f, maxHealthPoints);

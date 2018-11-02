@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using RPG.Core;
+using System;
 
 namespace RPG.Characters
 {
@@ -10,20 +9,34 @@ namespace RPG.Characters
     {
 
         AreaEffect config;
+        AudioSource audioSource = null;
 
         private void Start()
         {
-            print(this + " compoent behavior was added to Player");
+            audioSource = GetComponent<AudioSource>();
         }
 
         public void SetConfig(AreaEffect configToSet)
         {
             this.config = configToSet;
         }
-
         public void Use(AbiltyUseParams useParams)
         {
-            print("Power attack used, extra damage: " + gameObject.name);
+            DealRadialDamage(useParams);
+            PlayParticleEffect();
+            audioSource.clip = config.GetAduioClip();
+            audioSource.Play(); // Move to somewhere to do not reapte our selfves 
+
+        }
+        private void PlayParticleEffect()
+        {
+            var prefab = Instantiate(config.GetParticalePrefab(), transform.position, Quaternion.identity);
+            ParticleSystem myParticleSystem = prefab.GetComponent<ParticleSystem>();
+            myParticleSystem.Play();
+            Destroy(myParticleSystem, myParticleSystem.main.duration);           
+        }
+        private void DealRadialDamage(AbiltyUseParams useParams)
+        {
             RaycastHit[] hits = Physics.SphereCastAll(
                 transform.position,
                 config.GetAoeRadius(),
@@ -36,15 +49,13 @@ namespace RPG.Characters
             foreach (RaycastHit hit in hits)
             {
                 var damagable = hit.collider.gameObject.GetComponent<IDamageable>();
-                var enemie = hit.collider.gameObject.GetComponent<Enemy>();
-                if(damagable != null && enemie)
+                var enemy = hit.collider.gameObject.GetComponent<Enemy>();
+                if (damagable != null && enemy)
                 {
                     damagable.TakeDamage(aoeDamage);
                 }
             }
-
         }
 
-    
     }
 }
