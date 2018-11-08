@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Self Heal L1
   m_EditorClassIdentifier: 
   energyCost: 30
-  particalePrefab: {fileID: 1502242443561298, guid: 27886ee7577a01e4bb3d22669e7427aa,
+  particalePrefab: {fileID: 1065966645173822, guid: 2bce1ac71b91075469540124cd191f72,
     type: 2}
   abiltySound: {fileID: 8300000, guid: 73e90d86bd0e1ce48a06f231d13dc371, type: 3}
   healAmount: 100

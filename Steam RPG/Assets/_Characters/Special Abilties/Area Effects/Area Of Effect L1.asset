@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Area Of Effect L1
   m_EditorClassIdentifier: 
   energyCost: 15
-  particalePrefab: {fileID: 1123812781063356, guid: 2ff180cb86930dd4da060480038fef61,
+  particalePrefab: {fileID: 1419948078022964, guid: 863ccfc470f571849a79c8886dbe9fbe,
     type: 2}
   abiltySound: {fileID: 8300000, guid: 73e90d86bd0e1ce48a06f231d13dc371, type: 3}
   extraDaamge: 5

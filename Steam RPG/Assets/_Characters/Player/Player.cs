@@ -19,9 +19,11 @@ namespace RPG.Characters
         [SerializeField] AnimatorOverrideController animatorOverrideController = null;
         [SerializeField] Wepon weponInUse = null;
         [SerializeField] float baseDamage = 10f;
-
         [SerializeField] AudioClip[] takeDamageSounds;
         [SerializeField] AudioClip[] deathSounds;
+        [Range(0.1f, 1.0f)] [SerializeField] float criticalHitChance = 0.1f;
+        [SerializeField] float criticalHitMultiplayer = 2f;
+        [SerializeField] ParticleSystem criticalHitParticle;
 
         // temp serializer fileds 
         [SerializeField] SpecialAbilty[] abilities;
@@ -35,6 +37,7 @@ namespace RPG.Characters
         float lastHitTime = 0f;
         GameObject currentTarget = null;
         CameraRaycaster cameraRaycaster = null;
+       
 
         private float currentHealtPoints;
         public float healthAsPercentage
@@ -44,11 +47,13 @@ namespace RPG.Characters
 
         private void Start()
         {
+    
+            audioSource = gameObject.GetComponent<AudioSource>();
+
             RegisterForMouseClick();
             SetCurrentMaxHealth();
             PutWeponInHand();
             SetupRuntimeAnimator();
-            audioSource = gameObject.GetComponent<AudioSource>();
             AttachInitialAbilities();
 
         }
@@ -141,11 +146,27 @@ namespace RPG.Characters
         {
             if (Time.time - lastHitTime > weponInUse.GetMinTimeBetweenHits())
             {
-                this.enemy.TakeDamage(baseDamage);
+                this.enemy.TakeDamage(CalculateDamage());
                 animator.SetTrigger(ATTACK_TRIGER);
                 lastHitTime = Time.time;
             }
         }
+
+        private float CalculateDamage()
+        {
+            bool isCriticalHit = UnityEngine.Random.Range(0f, 1f) <= criticalHitChance;
+
+            if (isCriticalHit)
+            {
+                criticalHitParticle.Play();
+                return criticalHitMultiplayer * (baseDamage + weponInUse.GetAdditionalDamage());
+            }
+            else
+            {
+                return (baseDamage + weponInUse.GetAdditionalDamage());
+            }
+        }
+
         private bool IsEnemyInRange(Enemy enemy)
         {
             float distanceToTarget = (enemy.transform.position - transform.position).magnitude;

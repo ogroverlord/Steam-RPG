@@ -12,6 +12,7 @@ namespace RPG.Wepons
         [SerializeField] AnimationClip atackAnimation;
         [SerializeField] float maxAttackRange = 1.5f;
         [SerializeField] float minTimeBetweenHits = 0.5f;
+        [SerializeField] float additionalDamage = 10f;
 
         public Transform gripTransform;
 
@@ -19,17 +20,18 @@ namespace RPG.Wepons
         {
             return minTimeBetweenHits;
         }
-
         public float GetMaxAttackRange()
         {
             return maxAttackRange;
         }
-
+        public float GetAdditionalDamage()
+        {
+            return additionalDamage; 
+        }
         public GameObject GetWeponPrefab()
         {
             return weponPrefab;
         }
-
         public AnimationClip GetWeponAnimation()
         {
             RemoveAnimationEvents();
