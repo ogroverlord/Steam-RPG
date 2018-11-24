@@ -329,7 +329,6 @@ GameObject:
   - component: {fileID: 114267084968132918}
   - component: {fileID: 114046855321626010}
   - component: {fileID: 195951020661950616}
-  - component: {fileID: 114618563625171736}
   m_Layer: 9
   m_Name: Archer
   m_TagString: Untagged
@@ -449,7 +448,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1752139676871886}
   m_LocalRotation: {x: -0, y: 0.9216774, z: -0, w: -0.38795725}
-  m_LocalPosition: {x: 6.2625813, y: 36.633038, z: -39.630165}
+  m_LocalPosition: {x: -1.2473755, y: -6.8536625, z: 28.755257}
   m_LocalScale: {x: 1.2572327, y: 1, z: 1.3801417}
   m_Children:
   - {fileID: 4222486860054064}
@@ -881,7 +880,8 @@ MonoBehaviour:
   attackRadius: 8
   chaseRadius: 1
   damagePerShot: 10
-  secondsBetweenShots: 2
+  firingPeriodInSeconds: 5
+  firingPeriodVariation: 0.1
   maxHealthPoints: 30
   projetileToUse: {fileID: 114963734337924046, guid: c32af68008b7be947845dd6ede2ad7e1,
     type: 2}
@@ -922,18 +922,6 @@ MonoBehaviour:
   m_MoveSpeedMultiplier: 0.5
   m_AnimSpeedMultiplier: 1
   m_GroundCheckDistance: 0.5
---- !u!114 &114618563625171736
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1752139676871886}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c5335f0882fe4d478883cc8c58ce906, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
 --- !u!114 &114641085673270322
 MonoBehaviour:
   m_ObjectHideFlags: 1

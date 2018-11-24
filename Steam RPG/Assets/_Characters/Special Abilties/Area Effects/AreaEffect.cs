@@ -13,19 +13,14 @@ namespace RPG.Characters
         [SerializeField] float aoeRadius = 4f;
 
 
-        public override void AttachComponentTo(GameObject gameObjectToattachTo)
+        public override AbiltyBehavior GetBehaviorComponent(GameObject gameObjectToattachTo)
         {
-            var behaviorComponent = gameObjectToattachTo.AddComponent<AreaEffectBehavior>();
-            behaviorComponent.SetConfig(this);
-            behavior = behaviorComponent;
+            return gameObjectToattachTo.AddComponent<AreaEffectBehavior>();
         }
-
-
         public float GetExtraDamage()
         {
             return extraDaamge;
         }
-
         public float GetAoeRadius()
         {
             return aoeRadius; 

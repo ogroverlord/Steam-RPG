@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using RPG.Core;
-using RPG.Wepons;
 using UnityEngine.Assertions;
 
 namespace RPG.Characters
@@ -25,7 +24,6 @@ namespace RPG.Characters
 
 
         private float currentHealtPoints = 100f;
-        AICharacterControl aiCharacterControl = null;
         Player player = null;
         bool isAttacking = false;
 
@@ -34,7 +32,6 @@ namespace RPG.Characters
         {
             currentHealtPoints = maxHealthPoints;
             player = GameObject.FindObjectOfType<Player>();
-            aiCharacterControl = GetComponent<AICharacterControl>();
         }
         private void Update()
         {
@@ -62,11 +59,9 @@ namespace RPG.Characters
 
             if (distanceToPlayer <= chaseRadius)
             {
-                aiCharacterControl.SetTarget(player.transform);
             }
             else
             {
-                aiCharacterControl.SetTarget(transform);
             }
         }
         // TODO sperate firing logic 

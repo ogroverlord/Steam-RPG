@@ -14,6 +14,7 @@ MonoBehaviour:
   energyCost: 15
   particalePrefab: {fileID: 1419948078022964, guid: 863ccfc470f571849a79c8886dbe9fbe,
     type: 2}
-  abiltySound: {fileID: 8300000, guid: 73e90d86bd0e1ce48a06f231d13dc371, type: 3}
+  audioClips:
+  - {fileID: 8300000, guid: 77e4d952691399e4ca1f17d61e85f829, type: 3}
   extraDaamge: 5
   aoeRadius: 2.5

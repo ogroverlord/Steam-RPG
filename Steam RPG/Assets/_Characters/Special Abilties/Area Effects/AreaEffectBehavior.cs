@@ -5,47 +5,29 @@ using System;
 namespace RPG.Characters
 {
 
-    public class AreaEffectBehavior : MonoBehaviour, ISpecialAbilty
+    public class AreaEffectBehavior : AbiltyBehavior
     {
 
-        AreaEffect config;
-        AudioSource audioSource = null;
 
-        private void Start()
-        {
-            audioSource = GetComponent<AudioSource>();
-        }
 
-        public void SetConfig(AreaEffect configToSet)
+        public override void Use(AbiltyUseParams useParams)
         {
-            this.config = configToSet;
-        }
-        public void Use(AbiltyUseParams useParams)
-        {
+            PlayAbiltySound();
             DealRadialDamage(useParams);
             PlayParticleEffect();
-            audioSource.clip = config.GetAduioClip();
-            audioSource.Play(); // Move to somewhere to do not reapte our selfves 
+ 
+        }
 
-        }
-        private void PlayParticleEffect()
-        {
-            var particalePrefab = config.GetParticalePrefab();
-            var prefab = Instantiate(config.GetParticalePrefab(), transform.position, particalePrefab.transform.rotation);
-            ParticleSystem myParticleSystem = prefab.GetComponent<ParticleSystem>();
-            myParticleSystem.Play();
-            Destroy(myParticleSystem, myParticleSystem.main.duration);           
-        }
         private void DealRadialDamage(AbiltyUseParams useParams)
         {
             RaycastHit[] hits = Physics.SphereCastAll(
                 transform.position,
-                config.GetAoeRadius(),
+                (specialAbilty as AreaEffect).GetAoeRadius(),
                 Vector3.up,
-                config.GetAoeRadius()
+                (specialAbilty as AreaEffect).GetAoeRadius()
             );
 
-            float aoeDamage = config.GetExtraDamage() + useParams.baseDamage;
+            float aoeDamage = (specialAbilty as AreaEffect).GetExtraDamage() + useParams.baseDamage;
 
             foreach (RaycastHit hit in hits)
             {

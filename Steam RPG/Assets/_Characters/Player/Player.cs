@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 // TODO Consier re-wiering 
 using RPG.CameraUI;
 using RPG.Core;
-using RPG.Wepons;
+
 
 namespace RPG.Characters
 {
@@ -17,7 +17,7 @@ namespace RPG.Characters
     {
         [SerializeField] float maxHealthPoints = 100f;
         [SerializeField] AnimatorOverrideController animatorOverrideController = null;
-        [SerializeField] Wepon weponInUse = null;
+        [SerializeField] Wepon currentWeponConfig = null;
         [SerializeField] float baseDamage = 10f;
         [SerializeField] AudioClip[] takeDamageSounds;
         [SerializeField] AudioClip[] deathSounds;
@@ -30,6 +30,7 @@ namespace RPG.Characters
 
         const string DEATH_TRIGER = "Death";
         const string ATTACK_TRIGER = "Attacking";
+        const string DEAFULT_ATTACK = "DEAFULT ATTACK";
 
         Enemy enemy = null;
         AudioSource audioSource = null;
@@ -37,6 +38,7 @@ namespace RPG.Characters
         float lastHitTime = 0f;
         GameObject currentTarget = null;
         CameraRaycaster cameraRaycaster = null;
+        GameObject weponObject = null; 
        
 
         private float currentHealtPoints;
@@ -52,12 +54,11 @@ namespace RPG.Characters
 
             RegisterForMouseClick();
             SetCurrentMaxHealth();
-            PutWeponInHand();
-            SetupRuntimeAnimator();
+            PutWeponInHand(currentWeponConfig);
+            SetAttackAnimation();
             AttachInitialAbilities();
 
         }
-
         private void Update()
         {
             if (healthAsPercentage > Mathf.Epsilon)
@@ -69,7 +70,7 @@ namespace RPG.Characters
         {
             for (int abiltyIndex = 0; abiltyIndex < abilities.Length; abiltyIndex++)
             {
-                abilities[abiltyIndex].AttachComponentTo(gameObject);
+                abilities[abiltyIndex].AttachAbiltyTo(gameObject);
             }
         }
         private void ScanForAbiltyKeyDown()
@@ -87,20 +88,26 @@ namespace RPG.Characters
         {
             currentHealtPoints = maxHealthPoints;
         }
-        private void SetupRuntimeAnimator()
+        private void SetAttackAnimation()
         {
             animator = GetComponent<Animator>();
             animator.runtimeAnimatorController = animatorOverrideController;
-            animatorOverrideController["DEAFULT ATTACK"] = weponInUse.GetWeponAnimation(); //remove paramater const 
+            animatorOverrideController[DEAFULT_ATTACK] = currentWeponConfig.GetWeponAnimation(); //remove paramater const 
         }
-        private void PutWeponInHand()
+        public void PutWeponInHand(Wepon wepoinToUse)
         {
-            var weponPrefab = weponInUse.GetWeponPrefab();
+            currentWeponConfig = wepoinToUse;
+            var weponPrefab = wepoinToUse.GetWeponPrefab();
             DominantHand dominanHand = RequestDominantHand();
-            var wepon = Instantiate(weponPrefab, dominanHand.transform);
-            wepon.transform.localPosition = weponInUse.gripTransform.localPosition;
-            wepon.transform.localRotation = weponInUse.gripTransform.localRotation;
+            Destroy(weponObject); 
+            weponObject = Instantiate(weponPrefab, dominanHand.transform);
+            weponObject.transform.localPosition = currentWeponConfig.gripTransform.localPosition;
+            weponObject.transform.localRotation = currentWeponConfig.gripTransform.localRotation;
+
+            audioSource.clip = wepoinToUse.GetWeponPickupSound();
+            audioSource.Play();
         }
+
         private DominantHand RequestDominantHand()
         {
             var dominanHand = GetComponentsInChildren<DominantHand>();
@@ -144,8 +151,9 @@ namespace RPG.Characters
         }
         private void AttackTarget()
         {
-            if (Time.time - lastHitTime > weponInUse.GetMinTimeBetweenHits())
+            if (Time.time - lastHitTime > currentWeponConfig.GetMinTimeBetweenHits())
             {
+                SetAttackAnimation();
                 this.enemy.TakeDamage(CalculateDamage());
                 animator.SetTrigger(ATTACK_TRIGER);
                 lastHitTime = Time.time;
@@ -159,18 +167,17 @@ namespace RPG.Characters
             if (isCriticalHit)
             {
                 criticalHitParticle.Play();
-                return criticalHitMultiplayer * (baseDamage + weponInUse.GetAdditionalDamage());
+                return criticalHitMultiplayer * (baseDamage + currentWeponConfig.GetAdditionalDamage());
             }
             else
             {
-                return (baseDamage + weponInUse.GetAdditionalDamage());
+                return (baseDamage + currentWeponConfig.GetAdditionalDamage());
             }
         }
-
         private bool IsEnemyInRange(Enemy enemy)
         {
             float distanceToTarget = (enemy.transform.position - transform.position).magnitude;
-            return distanceToTarget <= weponInUse.GetMaxAttackRange();
+            return distanceToTarget <= currentWeponConfig.GetMaxAttackRange();
 
         }
         public void TakeDamage(float amountOfDamage)
