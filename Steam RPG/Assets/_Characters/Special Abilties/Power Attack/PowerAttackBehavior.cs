@@ -8,18 +8,18 @@ namespace RPG.Characters
     {
 
 
-        public override void Use(AbiltyUseParams useParams)
+        public override void Use(GameObject target)
         {
             PlayAbiltySound();
-            DealExtraDamage(useParams);
+            DealExtraDamage(target);
             PlayParticleEffect();
 
         }
        
-        private void DealExtraDamage(AbiltyUseParams useParams)
+        private void DealExtraDamage(GameObject target)
         {
-            float damageTodeal = useParams.baseDamage + (specialAbilty as PowerAttack).GetExtraDamage();
-            useParams.target.TakeDamage(damageTodeal);
+            float damageTodeal = (specialAbilty as PowerAttack).GetExtraDamage();
+            target.GetComponent<HealthSystem>().TakeDamage(damageTodeal);   
         }
     }
 

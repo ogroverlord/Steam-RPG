@@ -10,7 +10,7 @@ namespace RPG.Characters
         protected SpecialAbilty specialAbilty;
         const float PARTICLE_CLEAN_UP_DELAY = 20f;
 
-        public abstract void Use(AbiltyUseParams useParams);
+        public abstract void Use(GameObject target = null);
 
         public void SetConfig(SpecialAbilty specialAbiltyToSet)
         {

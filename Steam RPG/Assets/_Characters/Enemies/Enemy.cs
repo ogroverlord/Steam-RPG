@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 
 namespace RPG.Characters
 {
-    public class Enemy : MonoBehaviour, IDamageable
+    public class Enemy : MonoBehaviour
     {
 
         [SerializeField] float attackRadius = 4f;
@@ -16,33 +16,26 @@ namespace RPG.Characters
         [SerializeField] float damagePerShot = 2f;
         [SerializeField] float firingPeriodInSeconds = 5f;
         [SerializeField] float firingPeriodVariation = 0.1f;
-        [SerializeField] float maxHealthPoints = 100f;
         [SerializeField] Projectile projetileToUse;
         [SerializeField] GameObject projectileSocket;
         [SerializeField] Vector3 aimOffset = new Vector3(0, 1.5f, 0);
   
 
 
-        private float currentHealtPoints = 100f;
-        Player player = null;
+        PlayerMovment player = null;
         bool isAttacking = false;
 
 
         private void Start()
         {
-            currentHealtPoints = maxHealthPoints;
-            player = GameObject.FindObjectOfType<Player>();
+            player = GameObject.FindObjectOfType<PlayerMovment>();
         }
+
         private void Update()
         {
             float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
 
-            if(player.healthAsPercentage <= Mathf.Epsilon)
-            {
-                StopAllCoroutines();
-                Destroy(this); //Stop enemie behavior
-            }
-
+    
             if (distanceToPlayer <= attackRadius && !isAttacking)
             {
                 isAttacking = true;
@@ -75,7 +68,7 @@ namespace RPG.Characters
             Vector3 unitVectorToPlayer = Vector3.Normalize(player.transform.position + aimOffset - projectileSocket.transform.position);
             newProjectile.GetComponent<Rigidbody>().velocity = unitVectorToPlayer * projectilSpeed;
         }
-        public float healthAsPercentage { get { return currentHealtPoints / maxHealthPoints; } }
+     
         private void OnDrawGizmos()
         {
 
@@ -88,14 +81,10 @@ namespace RPG.Characters
             Gizmos.DrawWireSphere(this.transform.position, chaseRadius);
 
         }
+
         public void TakeDamage(float damage)
         {
-            currentHealtPoints = Mathf.Clamp(currentHealtPoints - damage, 0f, maxHealthPoints);
-
-            if (currentHealtPoints <= 0)
-            {
-                Destroy(gameObject);
-            }
+            //TODO remove
         }
     }
 

@@ -10,15 +10,15 @@ namespace RPG.Characters
 
 
 
-        public override void Use(AbiltyUseParams useParams)
+        public override void Use(GameObject target)
         {
             PlayAbiltySound();
-            DealRadialDamage(useParams);
+            DealRadialDamage();
             PlayParticleEffect();
  
         }
 
-        private void DealRadialDamage(AbiltyUseParams useParams)
+        private void DealRadialDamage()
         {
             RaycastHit[] hits = Physics.SphereCastAll(
                 transform.position,
@@ -27,11 +27,11 @@ namespace RPG.Characters
                 (specialAbilty as AreaEffect).GetAoeRadius()
             );
 
-            float aoeDamage = (specialAbilty as AreaEffect).GetExtraDamage() + useParams.baseDamage;
+            float aoeDamage = (specialAbilty as AreaEffect).GetExtraDamage();
 
             foreach (RaycastHit hit in hits)
             {
-                var damagable = hit.collider.gameObject.GetComponent<IDamageable>();
+                var damagable = hit.collider.gameObject.GetComponent<HealthSystem>();
                 var enemy = hit.collider.gameObject.GetComponent<Enemy>();
                 if (damagable != null && enemy)
                 {
