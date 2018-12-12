@@ -39,7 +39,6 @@ namespace RPG.Characters
         private bool isInDirectMode = false;
         float turnAmount;
         float forwardAmount;
-        ThirdPersonCharacter character;
         Vector3 clickPoint;
         Animator animator;
         Rigidbody myRigidbody;
@@ -51,7 +50,6 @@ namespace RPG.Characters
         {
             AddRequierdComponents();
         }
-
         private void AddRequierdComponents()
         {
             var capsuleCollider = gameObject.AddComponent<CapsuleCollider>();
@@ -77,9 +75,7 @@ namespace RPG.Characters
             var audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.spatialBlend = audioSourceSpatialBlend;
         }
-
-
-        void Update()
+        private void Update()
         {
             if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance && isAlive)
             {
@@ -90,10 +86,7 @@ namespace RPG.Characters
                 Move(Vector3.zero);
             }
         }
-
-
-
-        void OnAnimatorMove()
+        private void OnAnimatorMove()
         {
             if (Time.deltaTime > 0)
             {
@@ -103,25 +96,11 @@ namespace RPG.Characters
                 myRigidbody.velocity = velocity;
             }
         }
-
-        Vector3 ShortDestination(Vector3 destination, float shortening)
+        private Vector3 ShortDestination(Vector3 destination, float shortening)
         {
             Vector3 reductionVector = (destination - transform.position).normalized * shortening;
             return destination - reductionVector;
         }
-
-        public void SetDestination(Vector3 worldPosition)
-        {
-            navMeshAgent.destination = worldPosition;
-        }
-
-        private void Move(Vector3 movment)
-        {
-            SetForwardAndTurn(movment);
-            ApplyExtraTurnRotation();
-            UpdateAnimator();
-        }
-
         private void SetForwardAndTurn(Vector3 movment)
         {
             if (movment.magnitude > moveThreshold)
@@ -133,21 +112,35 @@ namespace RPG.Characters
             turnAmount = Mathf.Atan2(localMove.x, localMove.z);
             forwardAmount = localMove.z;
         }
-        void UpdateAnimator()
+        private void UpdateAnimator()
         {
             animator.SetFloat("Forward", forwardAmount, 0.1f, Time.deltaTime);
             animator.SetFloat("Turn", turnAmount, 0.1f, Time.deltaTime);
             animator.speed = animationSpeedMultiplier;
         }
-        void ApplyExtraTurnRotation()
+        private void ApplyExtraTurnRotation()
         {
             float turnSpeed = Mathf.Lerp(stationaryTurnSpeed, movingTurnSpeed, forwardAmount);
             transform.Rotate(0, turnAmount * turnSpeed * Time.deltaTime, 0);
         }
+        private void Move(Vector3 movment)
+        {
+            SetForwardAndTurn(movment);
+            ApplyExtraTurnRotation();
+            UpdateAnimator();
+        }
 
+        public void SetDestination(Vector3 worldPosition)
+        {
+            navMeshAgent.destination = worldPosition;
+        }
         public void Kill()
         {
             isAlive = false;
+        }
+        public AnimatorOverrideController GetAnimatorOverrideController()
+        {
+            return overwriteControler;
         }
     }
 

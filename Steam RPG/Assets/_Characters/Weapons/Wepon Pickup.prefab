@@ -64,4 +64,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e5945c9b33df7248bb2f557cd5f5a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weponConfig: {fileID: 11400000, guid: d8df2559ca0adc6469f735f6160411b9, type: 2}
+  weponConfig: {fileID: 11400000, guid: d0135eacaf34b554bb3e508e35650bb6, type: 2}

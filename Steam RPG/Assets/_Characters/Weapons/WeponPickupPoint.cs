@@ -15,15 +15,6 @@ namespace RPG.Characters
             InstantiateWepon();
         }
 
-        void Update()
-        {
-            //if (!Application.isPlaying)
-            //{
-            //    DestroyChildren();
-            //    InstantiateWepon();
-            //}
-        }
-
         private void DestroyChildren()
         {
    
@@ -42,7 +33,7 @@ namespace RPG.Characters
         }
         private void OnTriggerEnter(Collider other)
         {
-            FindObjectOfType<PlayerMovment>().PutWeponInHand(weponConfig);
+            FindObjectOfType<WeponSystem>().PutWeponInHand(weponConfig);
         }
     }
 }

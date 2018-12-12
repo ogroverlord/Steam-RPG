@@ -42,7 +42,7 @@ namespace RPG.Characters
         {
             return pickupSFX;
         }
-        //So that assets pack cannot caouse crashes 
+
         private void RemoveAnimationEvents()
         {
             atackAnimation.events = new AnimationEvent[0];

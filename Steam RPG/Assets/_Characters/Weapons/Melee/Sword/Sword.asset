@@ -13,8 +13,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weponPrefab: {fileID: 1277290872445230, guid: 0982ce6c23f616d4bae4c222799510a6,
     type: 2}
-  atackAnimation: {fileID: 7400000, guid: 4cc7a6346b1003244b110b3324155da7, type: 3}
+  atackAnimation: {fileID: 7400000, guid: e4b91d917c30b684da298509cd8822ac, type: 3}
+  pickupSFX: {fileID: 0}
   maxAttackRange: 1.5
-  minTimeBetweenHits: 0.3
+  minTimeBetweenHits: 0.5
+  additionalDamage: 10
   gripTransform: {fileID: 4802191561212188, guid: c5a573b654c3ef944a620c20a009466d,
     type: 2}
