@@ -763,7 +763,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4687271985572554}
   - component: {fileID: 114152007898737222}
-  - component: {fileID: 114085262628330266}
+  - component: {fileID: 114852913724798408}
+  - component: {fileID: 114002899981570402}
+  - component: {fileID: 114449471824532196}
   m_Layer: 9
   m_Name: BigFat
   m_TagString: Untagged
@@ -1853,7 +1855,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1952503802570456}
   m_Mesh: {fileID: 4300004, guid: d288a0e4a2d923b46898986e979da643, type: 3}
---- !u!114 &114085262628330266
+--- !u!114 &114002899981570402
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1881,17 +1883,36 @@ MonoBehaviour:
   overwriteControler: {fileID: 22100000, guid: 69e566c5af860a342968394cece1a391, type: 2}
   characterAvatar: {fileID: 9000000, guid: d288a0e4a2d923b46898986e979da643, type: 3}
   audioSourceSpatialBlend: 0.5
-  colliderCenter: {x: 0, y: 0, z: 0}
-  coliderRadius: 0
-  coliderHeight: 0
+  colliderCenter: {x: 0, y: 0.8, z: 0}
+  coliderRadius: 0.45
+  coliderHeight: 1.6
   stoppingDistance: 1
-  moveSpeedMultiplier: 1
+  moveSpeedMultiplier: 0.7
   animationSpeedMultiplier: 1
   movingTurnSpeed: 360
   stationaryTurnSpeed: 180
   moveThreshold: 0.1
   navMeshAgentSteeringSpeed: 1
   navMeshAgentStopingDistance: 1.3
+--- !u!114 &114449471824532196
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1898761941417270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f85640998ce2da48bfc5dc113278c02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealthPoints: 100
+  healthBar: {fileID: 0}
+  takeDamageSounds:
+  - {fileID: 8300000, guid: 47369dbee1a39a94caeab8f6a3047cc5, type: 3}
+  - {fileID: 8300000, guid: 357af9829d6b4794f8134935ce98d548, type: 3}
+  - {fileID: 8300000, guid: c2b622d4330cb514e886cf6043d1c68e, type: 3}
+  deathSounds: []
+  deathVanishSeconds: 0.5
 --- !u!114 &114602984457335438
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1903,6 +1924,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b5e1fdd2703c0740b21536460f01aef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114852913724798408
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1898761941417270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 813772257a49d734fa728e542e63b424, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chaseRadius: 6
+  patrolPath: {fileID: 0}
+  waypointTolerance: 2
 --- !u!137 &137926438066561332
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -32,7 +32,7 @@ namespace RPG.Characters
             foreach (RaycastHit hit in hits)
             {
                 var damagable = hit.collider.gameObject.GetComponent<HealthSystem>();
-                var enemy = hit.collider.gameObject.GetComponent<Enemy>();
+                var enemy = hit.collider.gameObject.GetComponent<EnemyAI>();
                 if (damagable != null && enemy)
                 {
                     damagable.TakeDamage(aoeDamage);

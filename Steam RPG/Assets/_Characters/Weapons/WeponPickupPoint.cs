@@ -17,20 +17,19 @@ namespace RPG.Characters
 
         private void DestroyChildren()
         {
-   
             foreach (Transform child in transform)
             {
                 DestroyImmediate(child.gameObject);
             }
-
         }
 
-        void InstantiateWepon()
+        private void InstantiateWepon()
         {
             var wepon = weponConfig.GetWeponPrefab();
             wepon.transform.position = Vector3.zero;
             Instantiate(wepon, gameObject.transform);
         }
+
         private void OnTriggerEnter(Collider other)
         {
             FindObjectOfType<WeponSystem>().PutWeponInHand(weponConfig);

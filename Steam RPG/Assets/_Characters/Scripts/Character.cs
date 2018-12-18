@@ -35,11 +35,8 @@ namespace RPG.Characters
         [SerializeField] float navMeshAgentStopingDistance = 1.3f;
 
 
-
-        private bool isInDirectMode = false;
         float turnAmount;
         float forwardAmount;
-        Vector3 clickPoint;
         Animator animator;
         Rigidbody myRigidbody;
         NavMeshAgent navMeshAgent;
@@ -142,6 +139,11 @@ namespace RPG.Characters
         {
             return overwriteControler;
         }
+        public float GetAnimationSpeedMultiplyer()
+        {
+            return animationSpeedMultiplier;
+        }
+    
     }
 
 

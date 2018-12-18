@@ -8,7 +8,7 @@ namespace RPG.Characters
     {
  
         Character character;
-        Enemy enemy;
+        EnemyAI enemy;
         AudioSource audioSource;
         SpecialAbilities abilities;
         CameraRaycaster cameraRaycaster;
@@ -58,7 +58,7 @@ namespace RPG.Characters
             }
         }
         
-        private void OnMouseOverEnemy(Enemy enemy)
+        private void OnMouseOverEnemy(EnemyAI enemy)
         {
             this.enemy = enemy;
 
@@ -72,7 +72,7 @@ namespace RPG.Characters
             }
         }
 
-        private bool IsEnemyInRange(Enemy enemy)
+        private bool IsEnemyInRange(EnemyAI enemy)
         {
             float distanceToTarget = (enemy.transform.position - transform.position).magnitude;
             return distanceToTarget <= weponSystem.GetCurrentWepon().GetMaxAttackRange();

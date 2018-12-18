@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -9,7 +9,6 @@ namespace RPG.Characters
 {
     public class WeponSystem : MonoBehaviour
     {
-
         [SerializeField] Wepon currentWeponConfig;
         [SerializeField] float baseDamage = 10f;
 
@@ -22,8 +21,7 @@ namespace RPG.Characters
         Character character;
         float lastHitTime = 0f;
 
-
-        private void Start()
+        void Start()
         {
             animator = GetComponent<Animator>();
             character = GetComponent<Character>();
@@ -31,6 +29,37 @@ namespace RPG.Characters
             PutWeponInHand(currentWeponConfig);
             SetAttackAnimation();
         }
+        void Update()
+        {
+            bool targetIsDead;
+            bool targetIsOutOfRange;
+
+            if (target == null)
+            {
+                targetIsDead = false;
+                targetIsOutOfRange = false;
+            }
+            else
+            {
+                targetIsDead = (target.GetComponent<HealthSystem>().HealthAsPercentage <= Mathf.Epsilon);
+
+                var distanceToTarget = Vector3.Distance(transform.position, target.transform.position);
+                targetIsOutOfRange = distanceToTarget  > currentWeponConfig.GetMaxAttackRange();
+
+                bool characterIsDead = (GetComponent<HealthSystem>().HealthAsPercentage <= Mathf.Epsilon);
+
+                print(targetIsDead + " " + targetIsOutOfRange + " " + characterIsDead);
+
+                if (targetIsDead || targetIsOutOfRange || characterIsDead)
+                {
+                    
+                    StopAllCoroutines();
+                }
+            }
+
+
+        }
+
         private float CalculateDamage()
         {
             return (baseDamage + currentWeponConfig.GetAdditionalDamage());
@@ -48,7 +77,7 @@ namespace RPG.Characters
             if (Time.time - lastHitTime > currentWeponConfig.GetMinTimeBetweenHits())
             {
                 SetAttackAnimation();
-              //  this.enemy.TakeDamage(CalculateDamage());
+                //  this.enemy.TakeDamage(CalculateDamage());
                 animator.SetTrigger(ATTACK_TRIGER);
                 lastHitTime = Time.time;
             }
@@ -85,9 +114,51 @@ namespace RPG.Characters
         public void AttackTarget(GameObject targetToAttack)
         {
             target = targetToAttack;
-            print("attacking: " + targetToAttack);
-            //use corutine to attack reapatidly
+            StartCoroutine(AttackTargetRepeatedly());
         }
 
+        IEnumerator AttackTargetRepeatedly()
+        {
+            bool attackerStillAlive = GetComponent<HealthSystem>().HealthAsPercentage >= Mathf.Epsilon;
+            bool targetStillAlive = target.GetComponent<HealthSystem>().HealthAsPercentage >= Mathf.Epsilon;
+
+            while (attackerStillAlive && targetStillAlive)
+            {
+                float weponHitPeriod = currentWeponConfig.GetMinTimeBetweenHits();
+                float timeToWait = weponHitPeriod * character.GetAnimationSpeedMultiplyer();
+
+                bool isItTimeToHitAgain = Time.time - lastHitTime > timeToWait;
+
+                if (isItTimeToHitAgain)
+                {
+                    AttackTargetOnce();
+                    lastHitTime = Time.time;
+                }
+                yield return new WaitForSeconds(timeToWait);
+            }
+        }
+
+        private void AttackTargetOnce()
+        {
+            if (!character.GetAnimatorOverrideController())
+            {
+                Debug.Break();
+                Debug.LogAssertion("Plese provide " + gameObject + " with animator override controler");
+            }
+            else
+            {
+                transform.LookAt(target.transform);
+                animator.SetTrigger(ATTACK_TRIGER);
+                float damageDelay = 1.0f; // Get from wepon 
+                SetAttackAnimation();
+                StartCoroutine(DamageAfterDelay(damageDelay));
+            }
+        }
+
+        private IEnumerator DamageAfterDelay(float damageDelay)
+        {
+            yield return new WaitForSeconds(damageDelay);
+            target.GetComponent<HealthSystem>().TakeDamage(CalculateDamage());
+        }
     }
 }

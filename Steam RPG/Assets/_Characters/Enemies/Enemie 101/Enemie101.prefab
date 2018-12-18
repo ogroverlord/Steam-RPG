@@ -203,7 +203,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4642652387847584}
   - component: {fileID: 114964461355512298}
-  - component: {fileID: 114640448236541822}
+  - component: {fileID: 114874873407365970}
+  - component: {fileID: 114945596428860138}
+  - component: {fileID: 114746756751327326}
   m_Layer: 9
   m_Name: Enemie101
   m_TagString: Untagged
@@ -1853,19 +1855,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1527971365477708}
   m_Mesh: {fileID: 4300000, guid: d288a0e4a2d923b46898986e979da643, type: 3}
---- !u!114 &114640448236541822
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1258714829112910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bb03e07e815f934281fba87adc49181, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentWeponConfig: {fileID: 11400000, guid: d32730d03e6b944439bef371e81edd43, type: 2}
-  baseDamage: 10
 --- !u!114 &114654150135630830
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1877,6 +1866,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b5e1fdd2703c0740b21536460f01aef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114746756751327326
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1258714829112910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f85640998ce2da48bfc5dc113278c02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealthPoints: 100
+  healthBar: {fileID: 0}
+  takeDamageSounds:
+  - {fileID: 8300000, guid: 23570a8c41fda444a8b41ee07174e287, type: 3}
+  - {fileID: 8300000, guid: 3912a39ff6497e74f8439308836eab93, type: 3}
+  - {fileID: 8300000, guid: 7a241acc7b62d614facbb40cf774cf82, type: 3}
+  deathSounds: []
+  deathVanishSeconds: 0.5
+--- !u!114 &114874873407365970
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1258714829112910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 813772257a49d734fa728e542e63b424, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chaseRadius: 6
+  patrolPath: {fileID: 0}
+  waypointTolerance: 2
+--- !u!114 &114945596428860138
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1258714829112910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb03e07e815f934281fba87adc49181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentWeponConfig: {fileID: 11400000, guid: 540cd37789cbb1e4f904b580b74f5d8f, type: 2}
+  baseDamage: 10
 --- !u!114 &114964461355512298
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1892,11 +1927,11 @@ MonoBehaviour:
   overwriteControler: {fileID: 22100000, guid: 61d82aee8e912b84595f7942a78d0adc, type: 2}
   characterAvatar: {fileID: 9000000, guid: d288a0e4a2d923b46898986e979da643, type: 3}
   audioSourceSpatialBlend: 0.5
-  colliderCenter: {x: 0, y: 0, z: 0}
-  coliderRadius: 0
-  coliderHeight: 0
+  colliderCenter: {x: 0, y: 0.8, z: 0}
+  coliderRadius: 0.45
+  coliderHeight: 1.6
   stoppingDistance: 1
-  moveSpeedMultiplier: 1
+  moveSpeedMultiplier: 0.5
   animationSpeedMultiplier: 1
   movingTurnSpeed: 360
   stationaryTurnSpeed: 180

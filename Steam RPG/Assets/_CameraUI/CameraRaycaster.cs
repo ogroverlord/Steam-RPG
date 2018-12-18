@@ -9,7 +9,6 @@ namespace RPG.CameraUI
 {
     public class CameraRaycaster : MonoBehaviour
     {
-        [SerializeField] int[] layerPriorities = null;
         [SerializeField] Texture2D walkCursor = null;
         [SerializeField] Texture2D attackCursor = null;
         [SerializeField] Vector2 cursorHotspot = new Vector2(0f, 0f);
@@ -21,7 +20,7 @@ namespace RPG.CameraUI
 
         Rect screenCurrentRect = new Rect();
 
-        public delegate void OnMouseOverEnemy(Enemy enemy);
+        public delegate void OnMouseOverEnemy(EnemyAI enemy);
         public event OnMouseOverEnemy onMouseOverEnemy;
 
         public delegate void OnMoseOverWalkable(Vector3 destination);
@@ -77,7 +76,7 @@ namespace RPG.CameraUI
             RaycastHit hitInfo;
             Physics.Raycast(ray, out hitInfo, maxRaycastDepth);
             var gameObjectHit = hitInfo.collider.gameObject;
-            var enemyHit = gameObjectHit.GetComponent<Enemy>();
+            var enemyHit = gameObjectHit.GetComponent<EnemyAI>();
 
             if (enemyHit)
             {
