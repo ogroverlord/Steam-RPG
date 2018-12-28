@@ -9,6 +9,8 @@ namespace RPG.Characters
     {
         protected SpecialAbilty specialAbilty;
         const float PARTICLE_CLEAN_UP_DELAY = 20f;
+        const string DEFAULT_ATTACK_STATE = "DEAFULT ATTACK";
+        const string ATTACK_TRIGGER = "Attacking";
 
         public abstract void Use(GameObject target = null);
 
@@ -32,6 +34,15 @@ namespace RPG.Characters
             var audioSource = GetComponent<AudioSource>();
             audioSource.PlayOneShot(abiltySound); 
         }
+        protected void PlayAbiltyAnimation()
+        {
+            var animatorOverrideControler = GetComponent<Character>().GetAnimatorOverrideController();
+            var animator = GetComponent<Animator>();
+            animatorOverrideControler[DEFAULT_ATTACK_STATE] = specialAbilty.GetAbiltyAnimation();
+            animator.SetTrigger(ATTACK_TRIGGER);
+            print("Playing now:" + specialAbilty.GetAbiltyAnimation().name);
+        }
+
         IEnumerator DestroyParticleWhenFinished(GameObject particalePrefab)
         {
             while (particalePrefab.GetComponent<ParticleSystem>().isPlaying)

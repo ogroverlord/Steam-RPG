@@ -32,7 +32,7 @@ namespace RPG.Characters
 
         private void OnTriggerEnter(Collider other)
         {
-            FindObjectOfType<WeponSystem>().PutWeponInHand(weponConfig);
+            FindObjectOfType<PlayerControl>().GetComponent<WeponSystem>().PutWeponInHand(weponConfig);
         }
     }
 }

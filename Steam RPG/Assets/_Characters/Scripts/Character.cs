@@ -43,10 +43,22 @@ namespace RPG.Characters
         bool isAlive = true;
 
 
-        private void Awake()
+        void Awake()
         {
             AddRequierdComponents();
         }
+        void Update()
+        {
+            if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance && isAlive)
+            {
+                Move(navMeshAgent.desiredVelocity);
+            }
+            else
+            {
+                Move(Vector3.zero);
+            }
+        }
+
         private void AddRequierdComponents()
         {
             var capsuleCollider = gameObject.AddComponent<CapsuleCollider>();
@@ -71,17 +83,6 @@ namespace RPG.Characters
 
             var audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.spatialBlend = audioSourceSpatialBlend;
-        }
-        private void Update()
-        {
-            if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance && isAlive)
-            {
-                Move(navMeshAgent.desiredVelocity);
-            }
-            else
-            {
-                Move(Vector3.zero);
-            }
         }
         private void OnAnimatorMove()
         {

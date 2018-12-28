@@ -14,6 +14,7 @@ namespace RPG.Characters
         [SerializeField] float maxAttackRange = 1.5f;
         [SerializeField] float minTimeBetweenHits = 0.5f;
         [SerializeField] float additionalDamage = 10f;
+        [SerializeField] float damageDelay = 0.5f;
 
         public Transform gripTransform;
 
@@ -28,6 +29,10 @@ namespace RPG.Characters
         public float GetAdditionalDamage()
         {
             return additionalDamage; 
+        }
+        public float GetDamageDeley()
+        {
+            return damageDelay;
         }
         public GameObject GetWeponPrefab()
         {

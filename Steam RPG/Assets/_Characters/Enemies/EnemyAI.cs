@@ -14,7 +14,7 @@ namespace RPG.Characters
         [SerializeField] float waypointTolerance = 2f;
 
         Character character;
-        PlayerMovment player = null;
+        PlayerControl player = null;
         float currentWeponRange = 4f;
         float distanceToPlayer;
         int nextWaypointIndex = 0; 
@@ -32,7 +32,7 @@ namespace RPG.Characters
 
         private void Start()
         {
-            player = GameObject.FindObjectOfType<PlayerMovment>();
+            player = GameObject.FindObjectOfType<PlayerControl>();
             character = gameObject.GetComponent<Character>();
         }
 
@@ -45,6 +45,7 @@ namespace RPG.Characters
             if (distanceToPlayer > chaseRadius && state != State.patrolling)
             {
                 StopAllCoroutines();
+                weponSystem.StopAttacking();
                 StartCoroutine(Patrol());
             }
             if (distanceToPlayer <= chaseRadius && state != State.chasing)
@@ -55,10 +56,13 @@ namespace RPG.Characters
             if (distanceToPlayer <= currentWeponRange && state != State.attacking)
             {
                 StopAllCoroutines();
-                state = State.attacking; 
-                //attack player
+                state = State.attacking;
+                weponSystem.AttackTarget(player.gameObject);
+
             }
         }
+
+      
 
         IEnumerator Patrol()
         {

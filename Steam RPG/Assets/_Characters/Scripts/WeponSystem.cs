@@ -60,6 +60,11 @@ namespace RPG.Characters
 
         }
 
+        internal void StopAttacking()
+        {
+            StopAllCoroutines();
+        }
+
         private float CalculateDamage()
         {
             return (baseDamage + currentWeponConfig.GetAdditionalDamage());
@@ -74,13 +79,12 @@ namespace RPG.Characters
         }
         private void AttackTarget()
         {
-            if (Time.time - lastHitTime > currentWeponConfig.GetMinTimeBetweenHits())
-            {
+            //if (Time.time - lastHitTime > currentWeponConfig.GetMinTimeBetweenHits())
+            //{
                 SetAttackAnimation();
-                //  this.enemy.TakeDamage(CalculateDamage());
                 animator.SetTrigger(ATTACK_TRIGER);
                 lastHitTime = Time.time;
-            }
+            //}
         }
         private DominantHand RequestDominantHand()
         {
@@ -149,7 +153,7 @@ namespace RPG.Characters
             {
                 transform.LookAt(target.transform);
                 animator.SetTrigger(ATTACK_TRIGER);
-                float damageDelay = 1.0f; // Get from wepon 
+                float damageDelay = currentWeponConfig.GetDamageDeley(); // Get from wepon 
                 SetAttackAnimation();
                 StartCoroutine(DamageAfterDelay(damageDelay));
             }
