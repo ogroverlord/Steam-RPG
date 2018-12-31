@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace RPG.Characters
 {
-    //[ExecuteInEditMode]
     public class WeponPickupPoint : MonoBehaviour
     {
         [SerializeField] Wepon weponConfig;
@@ -32,7 +31,10 @@ namespace RPG.Characters
 
         private void OnTriggerEnter(Collider other)
         {
-            FindObjectOfType<PlayerControl>().GetComponent<WeponSystem>().PutWeponInHand(weponConfig);
+            if (other.GetComponent<PlayerControl>())
+            {
+                FindObjectOfType<PlayerControl>().GetComponent<WeponSystem>().PutWeponInHand(weponConfig);
+            }
         }
     }
 }

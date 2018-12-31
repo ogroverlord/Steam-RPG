@@ -50,6 +50,7 @@ namespace RPG.Characters
         {
             if (Input.GetMouseButtonDown(1) || Input.GetMouseButton(0))
             {
+                weponSystem.StopAttacking();
                 character.SetDestination(destination);
             }
         }

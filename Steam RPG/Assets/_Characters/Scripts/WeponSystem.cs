@@ -52,7 +52,6 @@ namespace RPG.Characters
 
                 if (targetIsDead || targetIsOutOfRange || characterIsDead)
                 {
-                    
                     StopAllCoroutines();
                 }
             }
@@ -62,6 +61,7 @@ namespace RPG.Characters
 
         internal void StopAttacking()
         {
+            animator.StopPlayback();
             StopAllCoroutines();
         }
 

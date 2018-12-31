@@ -1722,7 +1722,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bb03e07e815f934281fba87adc49181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentWeponConfig: {fileID: 11400000, guid: d32730d03e6b944439bef371e81edd43, type: 2}
+  currentWeponConfig: {fileID: 11400000, guid: e0802825fb3d63749b715a896cd24442, type: 2}
   baseDamage: 10
 --- !u!114 &114152007898737222
 MonoBehaviour:
@@ -1764,9 +1764,10 @@ MonoBehaviour:
   maxHealthPoints: 100
   healthBar: {fileID: 0}
   takeDamageSounds:
-  - {fileID: 8300000, guid: 47369dbee1a39a94caeab8f6a3047cc5, type: 3}
-  - {fileID: 8300000, guid: 357af9829d6b4794f8134935ce98d548, type: 3}
-  - {fileID: 8300000, guid: c2b622d4330cb514e886cf6043d1c68e, type: 3}
+  - {fileID: 8300000, guid: c3b23418ae36984448c810f68142b45b, type: 3}
+  - {fileID: 8300000, guid: c4ed2a48714d85f44b501609e8bf0c06, type: 3}
+  - {fileID: 8300000, guid: a0309b6159f81de4fb949d3b66951930, type: 3}
+  - {fileID: 8300000, guid: 580910ad0b3fb3942a99e2c699f6be22, type: 3}
   deathSounds: []
   deathVanishSeconds: 0.5
 --- !u!114 &114602984457335438
