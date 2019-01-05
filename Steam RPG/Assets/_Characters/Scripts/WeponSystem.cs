@@ -48,7 +48,6 @@ namespace RPG.Characters
 
                 bool characterIsDead = (GetComponent<HealthSystem>().HealthAsPercentage <= Mathf.Epsilon);
 
-                print(targetIsDead + " " + targetIsOutOfRange + " " + characterIsDead);
 
                 if (targetIsDead || targetIsOutOfRange || characterIsDead)
                 {
@@ -79,12 +78,10 @@ namespace RPG.Characters
         }
         private void AttackTarget()
         {
-            //if (Time.time - lastHitTime > currentWeponConfig.GetMinTimeBetweenHits())
-            //{
+
                 SetAttackAnimation();
                 animator.SetTrigger(ATTACK_TRIGER);
                 lastHitTime = Time.time;
-            //}
         }
         private DominantHand RequestDominantHand()
         {
@@ -112,8 +109,6 @@ namespace RPG.Characters
             weponObject.transform.localPosition = currentWeponConfig.gripTransform.localPosition;
             weponObject.transform.localRotation = currentWeponConfig.gripTransform.localRotation;
 
-            //audioSource.clip = wepoinToUse.GetWeponPickupSound();
-            //audioSource.Play();
         }
         public void AttackTarget(GameObject targetToAttack)
         {
@@ -128,8 +123,9 @@ namespace RPG.Characters
 
             while (attackerStillAlive && targetStillAlive)
             {
-                float weponHitPeriod = currentWeponConfig.GetMinTimeBetweenHits();
-                float timeToWait = weponHitPeriod * character.GetAnimationSpeedMultiplyer();
+                var animationClip = currentWeponConfig.GetWeponAnimation();
+                float animationClipTime = animationClip.length / character.GetAnimationSpeedMultiplyer();
+                float timeToWait = animationClipTime + currentWeponConfig.GetTimeBetweenAnimationCycles();
 
                 bool isItTimeToHitAgain = Time.time - lastHitTime > timeToWait;
 
@@ -144,19 +140,11 @@ namespace RPG.Characters
 
         private void AttackTargetOnce()
         {
-            if (!character.GetAnimatorOverrideController())
-            {
-                Debug.Break();
-                Debug.LogAssertion("Plese provide " + gameObject + " with animator override controler");
-            }
-            else
-            {
                 transform.LookAt(target.transform);
                 animator.SetTrigger(ATTACK_TRIGER);
                 float damageDelay = currentWeponConfig.GetDamageDeley(); // Get from wepon 
                 SetAttackAnimation();
                 StartCoroutine(DamageAfterDelay(damageDelay));
-            }
         }
 
         private IEnumerator DamageAfterDelay(float damageDelay)

@@ -14,7 +14,8 @@ namespace RPG.Characters
 
         void LateUpdate()
         {
-            transform.LookAt(cameraToLookAt.transform);
+            var Up = Vector3.up;
+            transform.LookAt(cameraToLookAt.transform, Up);
         }
     }
 }

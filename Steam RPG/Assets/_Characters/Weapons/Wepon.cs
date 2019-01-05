@@ -12,15 +12,15 @@ namespace RPG.Characters
         [SerializeField] AnimationClip atackAnimation;
         [SerializeField] AudioClip pickupSFX;
         [SerializeField] float maxAttackRange = 1.5f;
-        [SerializeField] float minTimeBetweenHits = 0.5f;
+        [SerializeField] float timeBetweenAnimationCycles = 0.5f;
         [SerializeField] float additionalDamage = 10f;
         [SerializeField] float damageDelay = 0.5f;
 
         public Transform gripTransform;
 
-        public float GetMinTimeBetweenHits()
+        public float GetTimeBetweenAnimationCycles()
         {
-            return minTimeBetweenHits;
+            return timeBetweenAnimationCycles;
         }
         public float GetMaxAttackRange()
         {

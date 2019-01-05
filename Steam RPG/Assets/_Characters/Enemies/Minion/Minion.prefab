@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 223965698139764418}
   - component: {fileID: 114533621779067418}
   - component: {fileID: 114234003352198490}
+  - component: {fileID: 114600247039156344}
   m_Layer: 0
   m_Name: Enemy Canvas
   m_TagString: Untagged
@@ -553,7 +554,6 @@ GameObject:
   m_Component:
   - component: {fileID: 224339167004784064}
   - component: {fileID: 222634716077398516}
-  - component: {fileID: 114894635687067798}
   - component: {fileID: 114829351745797382}
   m_Layer: 5
   m_Name: Health Bar
@@ -1431,7 +1431,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1892176603712668}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 73.22, y: 3.99, z: 5.33}
+  m_LocalPosition: {x: 91.86, y: 3.99, z: -13.99}
   m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children:
   - {fileID: 4283225634377832}
@@ -1799,9 +1799,10 @@ MonoBehaviour:
   animatorControler: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9, type: 2}
   overwriteControler: {fileID: 22100000, guid: 5cd7e8140f24c334c9d792fd84573aec, type: 2}
   characterAvatar: {fileID: 9000000, guid: d288a0e4a2d923b46898986e979da643, type: 3}
+  animatorForwardCap: 1
   audioSourceSpatialBlend: 0.5
-  colliderCenter: {x: 0, y: 0.8, z: 0}
-  coliderRadius: 0.45
+  colliderCenter: {x: 0, y: 1, z: 0}
+  coliderRadius: 0.7
   coliderHeight: 1.6
   stoppingDistance: 1
   moveSpeedMultiplier: 1.2
@@ -1845,6 +1846,17 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114600247039156344
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1012451437766322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1946e1c1bae1c34ba2666ebb3463952, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114667765489691588
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1894,20 +1906,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 813772257a49d734fa728e542e63b424, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chaseRadius: 8
+  chaseRadius: 6
   patrolPath: {fileID: 0}
   waypointTolerance: 2
---- !u!114 &114894635687067798
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1678603520101032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!137 &137527663266615318
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -2037,7 +2038,7 @@ RectTransform:
   m_GameObject: {fileID: 1012451437766322}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.050000012, y: 0.05, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_Children:
   - {fileID: 224339167004784064}
   m_Father: {fileID: 4759808628782450}
@@ -2045,7 +2046,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 2.148}
+  m_AnchoredPosition: {x: 0, y: 2.5198908}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224339167004784064

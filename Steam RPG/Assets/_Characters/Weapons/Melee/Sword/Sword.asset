@@ -16,7 +16,8 @@ MonoBehaviour:
   atackAnimation: {fileID: 7400000, guid: d82669b37833c5f4db716b82428a5ad6, type: 3}
   pickupSFX: {fileID: 0}
   maxAttackRange: 1.5
-  minTimeBetweenHits: 0.5
+  timeBetweenAnimationCycles: 0.5
   additionalDamage: 10
+  damageDelay: 0.5
   gripTransform: {fileID: 4802191561212188, guid: c5a573b654c3ef944a620c20a009466d,
     type: 2}

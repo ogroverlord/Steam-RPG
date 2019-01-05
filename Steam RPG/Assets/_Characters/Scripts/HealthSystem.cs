@@ -79,10 +79,11 @@ namespace RPG.Characters
             characterMovment.Kill();
             animator.SetTrigger(DEATH_TRIGER);
 
-            var playerComponent = GetComponent<PlayerControl>(); 
-            if(playerComponent && playerComponent.isActiveAndEnabled)
+            var playerComponent = GetComponent<PlayerControl>();
+            PlayDeathSound();
+
+            if (playerComponent && playerComponent.isActiveAndEnabled)
             {
-                PlayDeathSound();
                 yield return new WaitForSecondsRealtime(audioSource.clip.length + 1f);
                 SceneManager.LoadScene(0); 
             }
